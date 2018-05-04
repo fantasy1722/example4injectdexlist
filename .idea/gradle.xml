@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/examplelibrary" />
             <option value="$PROJECT_DIR$/mylibrary" />
+            <option value="$PROJECT_DIR$/replugin-host-lib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

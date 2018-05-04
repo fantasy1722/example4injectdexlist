@@ -18,6 +18,20 @@ android {
     }
 }
 
+apply plugin: 'replugin-host-gradle'
+repluginHostConfig {
+    useAppCompat = true
+
+    // 可以在这里自定义常驻进程的名字
+    // persistentName = ":XXXXService"
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -27,4 +41,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //compileOnly project(':examplelibrary')
     compileOnly files('/Users/fantasy1722/Desktop/sourcecode/example4injectdexlist/examplelibrary/build/intermediates/packaged-classes/release/classes.jar')
+    //compile 'com.qihoo360.replugin:replugin-host-lib:2.2.4'
+    implementation project(':replugin-host-lib')
 }
