@@ -29,6 +29,7 @@ import android.os.Parcelable;
 import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.qihoo360.i.Factory;
 import com.qihoo360.i.IModule;
@@ -657,9 +658,10 @@ class PmBase {
      * @return
      */
     final Class<?> loadClass(String className, boolean resolve) {
+        Log.d("yaopinfan", "loader1 class : " + className);
         // 加载Service中介坑位
         if (className.startsWith(PluginPitService.class.getName())) {
-            if (LOG) {
+            if (LOGR) {
                 LogDebug.i(TAG, "loadClass: Loading PitService Class... clz=" + className);
             }
             return PluginPitService.class;
@@ -678,7 +680,7 @@ class PmBase {
         }
         return DummyActivity.class;
         }
-
+        Log.d("yaopinfan", "loader2 class : " + className);
         //
         if (mContainerServices.contains(className)) {
             Class<?> c = loadServiceClass(className);
@@ -706,14 +708,15 @@ class PmBase {
             }
             return DummyProvider.class;
         }
-
+        Log.d("yaopinfan", "loader3 class : " + className);
         // 插件定制表
         DynamicClass dc = mDynamicClasses.get(className);
         if (dc != null) {
+            Log.d("yaopinfan", "loader4 class : " + className);
             final Context context = RePluginInternal.getAppContext();
             PluginDesc desc = PluginDesc.get(dc.plugin);
 
-            if (LOG) {
+            if (LOGR) {
                 LogDebug.d("loadClass", "desc=" + desc);
                 if (desc != null) {
                     LogDebug.d("loadClass", "desc.isLarge()=" + desc.isLarge());
@@ -725,7 +728,7 @@ class PmBase {
             if (desc != null) {
                 String plugin = desc.getPluginName();
                 if (PluginTable.getPluginInfo(plugin) == null) {
-                    if (LOG) {
+                    if (LOGR) {
                         LogDebug.d("loadClass", "plugin=" + plugin + " not found, return DynamicClassProxyActivity.class");
                     }
                     return DynamicClassProxyActivity.class;
@@ -735,7 +738,7 @@ class PmBase {
             /* 加载未安装的大插件时，启动一个过度 Activity */
             // todo fixme 仅对 activity 类型才弹窗
             boolean needStartLoadingActivity = (desc != null && desc.isLarge() && !RePlugin.isPluginDexExtracted(dc.plugin));
-            if (LOG) {
+            if (LOGR) {
                 LogDebug.d("loadClass", "needStartLoadingActivity = " + needStartLoadingActivity);
             }
             if (needStartLoadingActivity) {
@@ -747,7 +750,7 @@ class PmBase {
             }
 
             Plugin p = loadAppPlugin(dc.plugin);
-            if (LOG) {
+            if (LOGR) {
                 LogDebug.d("loadClass", "p=" + p);
             }
             if (p != null) {
@@ -774,7 +777,7 @@ class PmBase {
                     }
                 }
             } else {
-                if (LOG) {
+                if (LOGR) {
                     LogDebug.d("loadClass", "加载 " + dc.plugin + " 失败");
                 }
                 Tasks.postDelayed2Thread(new Runnable() {
@@ -797,7 +800,7 @@ class PmBase {
             }
             return dc.defClass;
         }
-
+        Log.d("yaopinfan", "To loader defaultClass");
         //
         return loadDefaultClass(className);
     }

@@ -4,6 +4,7 @@ package com.example.fantasy1722.example4injectdexlist;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
 import com.qihoo360.replugin.RePlugin;
@@ -25,19 +26,20 @@ import dalvik.system.DexClassLoader;
 //    protected void attachBaseContext(Context base) {
 //        super.attachBaseContext(base);
 //        sContext = base;
-//        try {
-//            Log.d("yaopinfan", "------------start");
-//            Utils.extractAssets(base, "app-release.apk");
+//        //try {
+//        //    Log.d("yaopinfan", "------------start");
+//        //    Utils.extractAssets(base, "app-release.apk");
+////
+//        //    String secondDexPath = Utils.getDexPath(base, "app-release.apk");
+////
+//        //    final String optimizedDexOutputPath = Utils.getOptimizedDexPath(base);
+//        //    BaseDexClassLoaderHookHelper.injectNewClassInDexPathList(secondDexPath, optimizedDexOutputPath, null, "com.example.examplelibrary.test");
+//        //    Log.d("yaopinfan", "------------end");
+////
+//        //} catch (Throwable e) {
+//        //    e.printStackTrace();
+//        //}
 //
-//            String secondDexPath = Utils.getDexPath(base, "app-release.apk");
-//
-//            final String optimizedDexOutputPath = Utils.getOptimizedDexPath(base);
-//            BaseDexClassLoaderHookHelper.injectNewClassInDexPathList(secondDexPath, optimizedDexOutputPath, null, "com.example.examplelibrary.test");
-//            Log.d("yaopinfan", "------------end");
-//
-//        } catch (Throwable e) {
-//            e.printStackTrace();
-//        }
 //    }
 //
 //    @Override
@@ -57,32 +59,37 @@ public class MainApplication extends RePluginApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 
+        ApplicationInfo applicationInfo = base.getApplicationInfo();
+
+        Log.d("yaopinfan", applicationInfo.sourceDir);
+        Log.d("yaopinfan", applicationInfo.dataDir);
+
         // FIXME 允许接收rpRunPlugin等Gradle Task，发布时请务必关掉，以免出现问题
         RePlugin.enableDebugger(base, BuildConfig.DEBUG);
-        Log.d("yaopinfan", "MainApplication : " +base.getClassLoader().toString());
+        //Log.d("yaopinfan", "MainApplication : " +base.getClassLoader().toString());
 
-        Utils.extractAssets(base, "app-release.apk");
+        //Utils.extractAssets(base, "app-release.apk");
 
-        String secondDexPath = Utils.getDexPath(base, "app-release.apk");
+        //String secondDexPath = Utils.getDexPath(base, "app-release.apk");
 
-        final String optimizedDexOutputPath = Utils.getOptimizedDexPath(base);
+        //final String optimizedDexOutputPath = Utils.getOptimizedDexPath(base);
 
         //BaseDexClassLoaderHookHelper.injectNewClassInDexPathList(secondDexPath, optimizedDexOutputPath, null, "com.example.examplelibrary.test");
 
         //Log.d("yaopinfan","path" + secondDexPath + " optpath " + optimizedDexOutputPath );
 
-        try {
-            BootClassLoader pclt = new BootClassLoader(secondDexPath, optimizedDexOutputPath);
-            Field pfd = ClassLoader.class.getDeclaredField("parent");
-            pfd.setAccessible(true);
-            pfd.set(MainApplication.class.getClassLoader(), pclt);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        //try {
+        //    BootClassLoader pclt = new BootClassLoader(secondDexPath, optimizedDexOutputPath);
+        //    Field pfd = ClassLoader.class.getDeclaredField("parent");
+        //    pfd.setAccessible(true);
+        //    pfd.set(MainApplication.class.getClassLoader(), pclt);
+        //} catch (IllegalAccessException e) {
+        //    e.printStackTrace();
+        //} catch (NoSuchFieldException e) {
+        //    e.printStackTrace();
+        //} catch (ClassNotFoundException e) {
+        //    e.printStackTrace();
+        //}
 
         //DexClassLoader mDexClassLoader = new DexClassLoader(secondDexPath, optimizedDexOutputPath, null, MainApplication.class.getClassLoader());
         //Class<?> clazz = null;

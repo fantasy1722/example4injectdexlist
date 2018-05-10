@@ -20,6 +20,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.qihoo360.replugin.BootPluginClassLoader;
 import com.qihoo360.replugin.RePlugin;
 import com.qihoo360.replugin.helper.LogDebug;
 import com.qihoo360.replugin.helper.LogRelease;
@@ -91,6 +92,11 @@ public class PatchClassLoaderUtils {
             // 设置线程上下文中的ClassLoader为RePluginClassLoader
             // 防止在个别Java库用到了Thread.currentThread().getContextClassLoader()时，“用了原来的PathClassLoader”，或为空指针
             Thread.currentThread().setContextClassLoader(cl);
+
+            BootPluginClassLoader pclt = new BootPluginClassLoader(oBase, null, null);
+            Field pfd = ClassLoader.class.getDeclaredField("parent");
+            pfd.setAccessible(true);
+            pfd.set(PatchClassLoaderUtils.class.getClassLoader(), pclt);
 
             if (LOG) {
                 Log.d(TAG, "patch: patch mClassLoader ok");

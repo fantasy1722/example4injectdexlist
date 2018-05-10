@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         //}
 
 
-        try{
+        /*try{
 
             Class obj_class1 = Class.forName("android.app.ActivityThread");
             Method method = obj_class1.getDeclaredMethod("currentActivityThread",new Class[] {});
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         }catch(Exception e){
             Log.d("yaopinfan", "load apk classloader error:"+Log.getStackTraceString(e));
-        }
+        }*/
 
 
         mTextView = (TextView)findViewById(R.id.textView);
